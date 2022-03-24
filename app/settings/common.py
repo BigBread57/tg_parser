@@ -1,15 +1,15 @@
-from starlette.config import Config
+from pydantic import PostgresDsn
 
-config = Config(".env")
+from app.settings import config
 
-DATABASES = {
-    'drivername': 'postgresql',
-    'database': config('DATABASE'),
-    'username': config('USERNAME'),
-    'password': config('PASSWORD'),
-    'host': config('HOST'),
-    'port': config('PORT'),
-}
+SQLALCHEMY_DATABASE_URI = PostgresDsn.build(
+    scheme=config('FASTAPI_DRIVER_NAME', default='postgresql', cast=str),
+    user=config('FASTAPI_USERNAME', default='', cast=str),
+    password=config('FASTAPI_PASSWORD', default='', cast=str),
+    host=config('FASTAPI_HOST', default='localhost', cast=str),
+    port=config('FASTAPI_PORT', default='localhost', cast=str),
+    path=f"/{config('FASTAPI_DATABASE', default='parser', cast=str) or ''}",
+)
 
-FIRST_SUPERUSER = 'admin'
-FIRST_SUPERUSER_PASSWORD = 'admin'
+FIRST_SUPERUSER = config('FIRST_SUPERUSER', default='admin', cast=str)
+FIRST_SUPERUSER_PASSWORD = config('FIRST_SUPERUSER_PASSWORD', default='admin', cast=str)
