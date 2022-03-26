@@ -1,17 +1,12 @@
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Boolean, Column, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.db.base_class import Base
 
 if TYPE_CHECKING:
-    from .user import User  # noqa: F401
-
-
-class Channel(Base):
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
+    from .item import Item  # noqa: F401
 
 
 class Message(Base):
@@ -21,5 +16,5 @@ class Message(Base):
     url = Column(String, nullable=True)
     document = Column(String, nullable=True)
     video = Column(String, nullable=True)
-    owner_id = Column(Integer)
-    owner = relationship('Channel', back_populates='messages')
+    channel_id = Column(Integer)
+    channel = relationship('Channel', back_populates='messages')

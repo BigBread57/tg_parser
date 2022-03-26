@@ -2,7 +2,7 @@ from pydantic import PostgresDsn
 
 from app.settings import config
 
-SQLALCHEMY_DATABASE_URI = PostgresDsn.build(
+DATABASES = PostgresDsn.build(
     scheme=config('FASTAPI_DRIVER_NAME', default='postgresql', cast=str),
     user=config('FASTAPI_USERNAME', default='', cast=str),
     password=config('FASTAPI_PASSWORD', default='', cast=str),

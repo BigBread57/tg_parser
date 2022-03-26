@@ -4,7 +4,7 @@ from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from app.db.base_class import Base
+from parser.db.base_class import Base
 
 ModelType = TypeVar("ModelType", bound=Base)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
@@ -14,12 +14,13 @@ UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
 class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def __init__(self, model: Type[ModelType]):
         """
-        CRUD object with default methods to Create, Read, Update, Delete (CRUD).
+        Объект CRUD с методами по умолчанию для создания, чтения, обновления,
+        удаления (CRUD).
 
-        **Parameters**
+        **Параметры**
 
-        * `model`: A SQLAlchemy model class
-        * `schema`: A Pydantic model (schema) class
+        * `model`: класс модели SQLAlchemy.
+        * `schema`: класс модели (схемы) Pydantic.
         """
         self.model = model
 

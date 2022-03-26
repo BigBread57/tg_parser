@@ -1,14 +1,13 @@
 import typing
 
 from sqlalchemy import create_engine
-from sqlalchemy.engine import URL
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.util.compat import contextmanager
 
-from app.settings.common import config
+from settings.common import DATABASES
 
 
-engine = create_engine(URL.create(**config('DATABASES')), pool_pre_ping=True)
+engine = create_engine(DATABASES, pool_pre_ping=True)
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
