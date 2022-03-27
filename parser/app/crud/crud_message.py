@@ -3,12 +3,12 @@ from typing import List
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 
-from parser.crud.base import CRUDBase
-from parser.models.message import Message
-from parser.schemas.message import MessageCreate, MessageUpdate
+from app.crud.base import CRUDBase
+from app.models.message import Message
+from app.schemas.message import MessageCreate, MessageUpdate
 
 
-class CRUDItem(CRUDBase[Message, MessageCreate, MessageUpdate]):
+class CRUDMessage(CRUDBase[Message, MessageCreate, MessageUpdate]):
     def create_with_channel(
         self, db: Session, *, obj_in: MessageCreate, channel_id: int
     ) -> Message:
@@ -31,4 +31,4 @@ class CRUDItem(CRUDBase[Message, MessageCreate, MessageUpdate]):
         )
 
 
-item = CRUDItem(Message)
+message = CRUDMessage(Message)

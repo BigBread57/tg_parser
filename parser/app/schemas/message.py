@@ -32,7 +32,8 @@ class MessageUpdate(MessageBase):
 
 # Свойства, общие для моделей, хранящиеся в БД
 class MessageInDBBase(MessageBase):
-    id: Optional[int] = None
+    id: int
+    channel_id: int
 
     class Config:
         orm_mode = True

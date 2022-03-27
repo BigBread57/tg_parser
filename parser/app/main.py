@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 import uvicorn
 
+from app.api.api import api_router
+
 app = FastAPI()
 
 
@@ -10,4 +12,6 @@ async def root():
 
 
 if __name__ == '__main__':
-    uvicorn.run('main:parser', port=8000, host='0.0.0.0', reload=True)
+    uvicorn.run('main:api', port=8000, host='0.0.0.0', reload=True)
+
+app.include_router(api_router, prefix='/api/v1')

@@ -4,6 +4,9 @@ from pydantic import BaseModel
 
 
 # Общие свойства
+from app.schemas import Message
+
+
 class ChannelBase(BaseModel):
     name: str | None = None
 
@@ -21,6 +24,7 @@ class ChannelUpdate(ChannelBase):
 # Свойства, общие для моделей, хранящиеся в БД
 class ChannelInDBBase(ChannelBase):
     id: int
+    messages: list[Message] = []
 
     class Config:
         orm_mode = True
