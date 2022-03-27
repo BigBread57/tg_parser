@@ -5,43 +5,41 @@ import os
 from logging.config import fileConfig
 from pathlib import Path
 
+from alembic import context
 from dotenv import load_dotenv
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
-from alembic import context
-
-dotenv_path = os.path.join(Path(__file__).parent.parent.parent.joinpath('config'), '.env')
+# Необходимо для загрузки переменных из .env файла
+dotenv_path = os.path.join(
+    Path(__file__).parent.parent.parent.joinpath('config'),
+    '.env',
+)
 load_dotenv(dotenv_path)
 
-# this is the Alembic Config object, which provides
-# access to the values within the .ini file in use.
+# это объект Alembic Config, который предоставляет
+# доступ к значениям в используемом файле .ini.
 config = context.config
 
-# Interpret the config file for Python logging.
-# This line sets up loggers basically.
+# Интерпретировать файл конфигурации для ведения журнала Python.
+# Эта строка в основном настраивает регистраторы.
 fileConfig(config.config_file_name)
 
-# add your model's MetaData object here
-# for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
+# Добавление объекта MetaData моделей
+# для поддержки 'автоматической генерации'
 from app.db.base import Base  # noqa
 
 target_metadata = Base.metadata
-# other values from the config, defined by the needs of env.py,
-# can be acquired:
-# my_important_option = config.get_main_option("my_important_option")
-# ... etc.
 
 
 def get_url():
-    user = os.getenv('FASTAPI_USERNAME', 'postgres')
-    password = os.getenv('FASTAPI_PASSWORD', '')
-    server = os.getenv('FASTAPI_HOST', 'localhost')
-    port = os.getenv('FASTAPI_PORT', 5432)
+    """Предоставление корректного подключения к БД."""
+    user = os.getenv('FASTAPI_DB_USERNAME', 'postgres')
+    password = os.getenv('FASTAPI_DB_PASSWORD', '')
+    server = os.getenv('FASTAPI_DB_HOST', 'localhost')
+    port = os.getenv('FASTAPI_DB_PORT', 5432)
     db = os.getenv('FASTAPI_DATABASE', 'parser')
-    return f"postgresql://{user}:{password}@{server}:{port}/{db}"
+    return f'postgresql://{user}:{password}@{server}:{port}/{db}'
 
 
 def run_migrations_offline():
